@@ -36,4 +36,26 @@ describe("counter-pda", () => {
       .rpc();
     console.log("Your transaction signature", tx);
   });
+
+
+  //update test
+  it("Increment counter", async () => {
+    const oldCount = await program.account.counter.fetch(counterPK);
+    console.log("Old count: ", oldCount.count.toString())
+
+    const tx = await program.methods.incrementCounter()
+      .accounts({
+        suthority: provider.wallet.publicKey,
+        counter: counterPK
+      })
+      .rpc();
+
+    const newCounter = await program.account.counter.fetch(counterPK);
+    console.log("New count: ", newCounter.count.toString());
+    console.log("Your transaction signature", tx);
+  });
+
+
 });
+
+
